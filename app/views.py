@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from app.forms import UploadFileForm
 from app.models import Post
+from .helpers import pagination, Pager
 
 def index(request):
-    return render(request, 'index.html')
+    posts = Post.objects.all().order_by('-id')
+    page = pagination(request, posts, 3)
+
+    return render(request, 'index.html', locals())
 
 
 def upload(request):
@@ -18,3 +22,4 @@ def upload(request):
             p.save()
             return redirect('/')
     return render(request, 'upload.html', {'form':form})
+
