@@ -10,7 +10,7 @@
         <div class="post">
             <div class="row">
                 <div class=".col-md-6 .col-md-offset-3" style="text-align:center">
-                    <img src="{{post.image.url}}" class="img-thumbnail" alt="Cinque Terre" width="500" height="500"/>
+                    <a href="{% url 'post_detail' pk=post.pk %}"><img src="{{post.image.url}}" class="img-thumbnail" alt="Cinque Terre" width="500" height="500"/></a>
                     <p>{{ post.description }}</p>
                     
                 </div>

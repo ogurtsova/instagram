@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load bootstrap_pagination %}
+
+{% block page_title %}
+    Hello Instagram
+{% endblock %}
+
+{% block content %}
+    <div class="post">
+        <div class="row">
+            <div class=".col-md-6 .col-md-offset-3" style="text-align:center">
+                <a href="{% url 'post_detail' pk=post.pk %}"><img src="{{post.image.url}}" class="img-thumbnail" alt="Cinque Terre" width="500" height="500"/></a>
+                <p>{{ post.description }}</p>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class=".col-md-6 .col-md-offset-3" style="text-align:center">
+            {% if page.paginator.num_pages > 1 %}
+                {% bootstrap_paginate page %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
