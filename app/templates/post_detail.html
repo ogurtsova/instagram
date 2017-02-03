@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load bootstrap3 %}
 {% load bootstrap_pagination %}
 
 {% block page_title %}
@@ -8,19 +9,51 @@
 {% block content %}
     <div class="post">
         <div class="row">
-            <div class=".col-md-6 .col-md-offset-3" style="text-align:center">
-                <a href="{% url 'post_detail' pk=post.pk %}"><img src="{{post.image.url}}" class="img-thumbnail" alt="Cinque Terre" width="500" height="500"/></a>
+            <div class="col-md-4 col-md-offset-4" style="text-align:center">
+                <img src="{{post.image.url}}" class="img-thumbnail"/>
                 <p>{{ post.description }}</p>
                 
             </div>
         </div>
     </div>
+
+    <class class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <form action="{{ request.path }}" method="POST">
+                {% csrf_token %}
+                {% bootstrap_form comment_form %}
+                <button class="btn btn-success" type="submit">Save</button>
+            </form>
+        </div>
+    </class>
     
     <div class="row">
-        <div class=".col-md-6 .col-md-offset-3" style="text-align:center">
-            {% if page.paginator.num_pages > 1 %}
-                {% bootstrap_paginate page %}
-            {% endif %}
+        <div class="col-md-4 col-md-offset-4">
+        {% for comment in page %}
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>{{ comment.author_name }}</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="pull-right">{{ comment.created_date | date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{ comment.text }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <h5 style="font-style:italic">No comments</h5>
+        {% endfor %}
+        {% if page.paginator.num_pages > 1 %}
+            {% bootstrap_paginate page %}
+        {% endif %}
         </div>
     </div>
 {% endblock %}

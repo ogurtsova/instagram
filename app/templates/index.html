@@ -9,8 +9,8 @@
     {% for post in page %}
         <div class="post">
             <div class="row">
-                <div class=".col-md-6 .col-md-offset-3" style="text-align:center">
-                    <a href="{% url 'post_detail' pk=post.pk %}"><img src="{{post.image.url}}" class="img-thumbnail" alt="Cinque Terre" width="500" height="500"/></a>
+                <div class="col-md-4 col-md-offset-4">
+                    <a href="{% url 'post_detail' pk=post.pk %}"><img src="{{post.image.url}}" class="img-thumbnail"/></a>
                     <p>{{ post.description }}</p>
                     
                 </div>
@@ -18,7 +18,7 @@
         </div>
     {% endfor %}
     <div class="row">
-        <div class=".col-md-6 .col-md-offset-3" style="text-align:center">
+        <div class="col-md-4 col-md-offset-4">
             {% if page.paginator.num_pages > 1 %}
                 {% bootstrap_paginate page %}
             {% endif %}

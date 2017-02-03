@@ -8,6 +8,9 @@ class UploadFileForm(forms.Form):
 
 
 class CommentForm(forms.ModelForm):
+
+    text = forms.CharField(widget=forms.Textarea(attrs={'rows':3}))
+
     class Meta:
         model = Comment
         fields = ('author_name', 'text',)
