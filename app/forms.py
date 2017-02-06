@@ -15,6 +15,7 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('author_name', 'text',)
 
+
 class SignUpForm(forms.Form):
     username = forms.CharField(max_length=128)
     email = forms.EmailField()
@@ -32,11 +33,57 @@ class SignUpForm(forms.Form):
         return password2
 
     def  clean_username(self):
-        users = User.objects.filter(username=self.cleaned_data.get('username'))
+        username = self.cleaned_data.get('username')
+        users = User.objects.filter(username=username)
         if len(users) > 0:
             raise forms.ValidationError("This username is already taken")
+        return username
 
     def clean_email(self):
-        emails = User.objects.filter(email=self.cleaned_data.get('email'))
+        email = self.cleaned_data.get('email')
+        emails = User.objects.filter(email=email)
         if len(emails) > 0:
             raise forms.ValidationError("This email is already taken")
+        return email
+
+
+class SignInForm(forms.Form):
+    username = forms.CharField(max_length=128)
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean_password(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+        users = User.objects.filter(username=username)
+        if len(users) == 0:
+            raise forms.ValidationError("Authentification failed")
+        user = users[0]
+        if not user.check_password(password):
+            raise forms.ValidationError("Authentification failed")
+        return password 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

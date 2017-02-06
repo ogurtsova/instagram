@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load bootstrap_pagination %}
+
+{% block page_title %}
+    Sign in
+{% endblock %}
+
+{% block content %}
+    <class class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <form action="{{ request.path }}" method="POST">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button class="btn btn-success" type="submit">Sign in</button>
+            </form>
+        </div>
+    </class>
+{% endblock %}

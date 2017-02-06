@@ -26,7 +26,9 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^post/(?P<pk>[0-9]+)/$', views.post_detail, name='post_detail'),
     url(r'^upload', views.upload),
-    url(r'^sign-up', views.sign_up, name='sign_up')
+    url(r'^sign-up', views.sign_up, name='sign_up'),
+    url(r'^sign-in', views.sign_in, name='sign_in'),
+    url(r'^sign-out', views.sign_out, name='sign_out')
 ]
 
 

@@ -15,7 +15,12 @@
             <a class="navbar-brand" href="{% url 'index' %}">Instagram</a>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{% url 'sign_up' %}" class="btn btn-default navbar-btn">Sign in</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'sign_out' %}">Sign out</a></li>
+                    {% else %}
+                        <li><a href="{% url 'sign_up' %}">Sign up</a></li>
+                        <li><a href="{% url 'sign_in' %}">Sign in</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

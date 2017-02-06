@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from app.forms import UploadFileForm, CommentForm, SignUpForm
+from app.forms import UploadFileForm, CommentForm, SignUpForm, SignInForm
 from app.models import Post, Comment
 from .helpers import pagination, Pager
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+
+
+
 
 def index(request):
     posts = Post.objects.all().order_by('-id')
@@ -46,11 +51,34 @@ def sign_up(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            # p = Post()
-            # p.description = request.POST['description']
-            # p.image = request.FILES['file']
-            # p.save()
+            user = User()
+            user.username = form.cleaned_data.get("username")
+            user.email = form.cleaned_data.get("email")
+            password = form.cleaned_data.get("password")
+            user.set_password(password)
+            user.save()
 
             return redirect('/')
 
     return render(request, 'sign_up.html', locals())
+
+
+
+def sign_in(request):
+    form = SignInForm()
+
+    if request.method == "POST":
+        form = SignInForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("/")
+
+    return render(request, 'sign_in.html', locals())
+
+def sign_out(request):
+    logout(request)
+    return redirect("/")
