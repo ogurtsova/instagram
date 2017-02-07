@@ -1,15 +1,19 @@
 {% extends 'base.html' %}
+{% load bootstrap3 %}
 
 {% block page_title %}
     Upload files
 {% endblock %}
 
 {% block content %}
-    
-    <form method="POST" action="{{ request.path }}" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <form method="POST" action="{{ request.path }}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button class="btn btn-success" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

@@ -4,6 +4,7 @@ from app.models import Post, Comment
 from .helpers import pagination, Pager
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -14,7 +15,7 @@ def index(request):
 
     return render(request, 'index.html', locals())
 
-
+@login_required
 def upload(request):
     form = UploadFileForm()
 
@@ -24,6 +25,7 @@ def upload(request):
             p = Post()
             p.description = request.POST['description']
             p.image = request.FILES['file']
+            p.user = request.user
             p.save()
             return redirect('/')
 
@@ -82,3 +84,34 @@ def sign_in(request):
 def sign_out(request):
     logout(request)
     return redirect("/")
+
+
+def user_page(request, username):
+    profile = get_object_or_404(User, username=username)
+    posts = Post.objects.filter(user=profile).order_by('-id')
+    page = pagination(request, posts, 3)
+    return render(request, 'user_page.html', locals())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

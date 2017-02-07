@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load thumbnail %}
 {% load bootstrap_pagination %}
 
 {% block page_title %}
@@ -11,13 +10,7 @@
         <div class="post">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
-                    <a href="{% url 'user_page' username=post.user.username %}">{{ post.user.username }}</a>
-                    <a href="{% url 'post_detail' pk=post.pk %}">
-                        {% thumbnail post.image "500x500" crop="center" as im %}
-                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  class="img-thumbnail">
-                        {% endthumbnail %}
-
-                    </a>
+                    <a href="{% url 'post_detail' pk=post.pk %}"><img src="{{post.image.url}}" class="img-thumbnail"/></a>
                     <p>{{ post.description }}</p>
                     
                 </div>

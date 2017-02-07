@@ -24,8 +24,12 @@ SECRET_KEY = '@__%nvn@th5%3=tg75fslx!e=-cr6ih(_i52&j_o^169s$f#!c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+THUMBNAIL_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
+
+LOGIN_URL = "/sign-in"
 
 
 # Application definition
@@ -40,6 +44,7 @@ INSTALLED_APPS = [
     'app',
     'bootstrap3',
     'bootstrap_pagination',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
