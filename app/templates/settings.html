@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load bootstrap3 %}
+{% load bootstrap_pagination %}
+
+{% block page_title %}
+    Settings
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <form method="POST" action="{{ request.path }}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button class="btn btn-success" type="submit">Save</button>
+            </form>
+            {% thumbnail request.user.profile.userpic "200x200" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  class="img-thumbnail" style="border-radius: 50%">
+                {% empty %}
+                <img src="http://placehold.it/200X200&text={{ request.user.username }}" class="img-thumbnail" style="border-radius: 50%">
+            {% endthumbnail %}
+        </div>
+    </div>
+{% endblock %}

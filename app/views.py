@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from app.forms import UploadFileForm, CommentForm, SignUpForm, SignInForm
-from app.models import Post, Comment
+from app.forms import UploadFileForm, CommentForm, SignUpForm, SignInForm, SettingsForm
+from app.models import Post, Comment, Profile
 from .helpers import pagination, Pager
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -59,6 +59,7 @@ def sign_up(request):
             password = form.cleaned_data.get("password")
             user.set_password(password)
             user.save()
+            Profile.objects.create(user=user)
 
             return redirect('/')
 
@@ -87,11 +88,28 @@ def sign_out(request):
 
 
 def user_page(request, username):
-    profile = get_object_or_404(User, username=username)
-    posts = Post.objects.filter(user=profile).order_by('-id')
-    page = pagination(request, posts, 3)
+    page_user = get_object_or_404(User, username=username)
+    posts = Post.objects.filter(user=page_user).order_by('-id')
+    page = pagination(request, posts, 16)
     return render(request, 'user_page.html', locals())
 
+
+def settings(request):
+    initial = {
+        'username': request.user.username
+    }
+    form = SettingsForm(initial=initial)
+
+    if request.method == "POST":
+        form = SettingsForm(request.POST, request.FILES)
+        if form.is_valid():
+            userpic = request.FILES.get('userpic')
+            if userpic is not None:
+                request.user.profile.userpic = userpic
+                request.user.profile.save()
+            return redirect(request.path)
+
+    return render(request, 'settings.html', locals())
 
 
 

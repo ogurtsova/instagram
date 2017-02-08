@@ -29,7 +29,8 @@ urlpatterns = [
     url(r'^sign-up', views.sign_up, name='sign_up'),
     url(r'^sign-in', views.sign_in, name='sign_in'),
     url(r'^sign-out', views.sign_out, name='sign_out'),
-    url(r'^u/(?P<username>\w+)/', views.user_page, name='user_page')
+    url(r'^u/(?P<username>\w+)/', views.user_page, name='user_page'),
+    url(r'^settings', views.settings, name='settings')
 ]
 
 

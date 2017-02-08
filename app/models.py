@@ -15,3 +15,7 @@ class Comment(models.Model):
     text = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     post = models.ForeignKey(Post)
+
+class Profile(models.Model):
+    userpic = models.ImageField(upload_to='upload')
+    user = models.OneToOneField(User)

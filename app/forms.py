@@ -60,7 +60,14 @@ class SignInForm(forms.Form):
         user = users[0]
         if not user.check_password(password):
             raise forms.ValidationError("Authentification failed")
-        return password 
+        return password
+
+
+class SettingsForm(forms.Form):
+    username = forms.CharField(max_length=128, required=False)
+    userpic = forms.FileField(required=False)
+
+
 
 
 
