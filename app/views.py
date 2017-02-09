@@ -5,6 +5,7 @@ from .helpers import pagination, Pager
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 
@@ -40,6 +41,7 @@ def post_detail(request, pk):
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.post = post
+            comment.user = request.user
             comment.save()
             return redirect(request.path)
     page = pagination(request, comments, 5)
@@ -95,6 +97,7 @@ def user_page(request, username):
 
 
 def settings(request):
+    
     initial = {
         'username': request.user.username
     }
@@ -103,10 +106,17 @@ def settings(request):
     if request.method == "POST":
         form = SettingsForm(request.POST, request.FILES)
         if form.is_valid():
+            username = form.cleaned_data.get('username')
+            users = User.objects.filter(username=username)
+            if len(users) == 0:
+                request.user.username = username
+            elif request.user.id != users[0].id:
+                messages.add_message(request, messages.ERROR, 'Sorry, this username is taken!')
             userpic = request.FILES.get('userpic')
             if userpic is not None:
                 request.user.profile.userpic = userpic
                 request.user.profile.save()
+            request.user.save()
             return redirect(request.path)
 
     return render(request, 'settings.html', locals())

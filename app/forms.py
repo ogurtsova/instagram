@@ -10,10 +10,9 @@ class UploadFileForm(forms.Form):
 
 class CommentForm(forms.ModelForm):
     text = forms.CharField(widget=forms.Textarea(attrs={'rows':3}))
-
     class Meta:
         model = Comment
-        fields = ('author_name', 'text',)
+        fields = ('text',)
 
 
 class SignUpForm(forms.Form):
@@ -66,7 +65,6 @@ class SignInForm(forms.Form):
 class SettingsForm(forms.Form):
     username = forms.CharField(max_length=128, required=False)
     userpic = forms.FileField(required=False)
-
 
 
 

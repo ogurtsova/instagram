@@ -75,6 +75,11 @@ TEMPLATES = [
     },
 ]
 
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
 WSGI_APPLICATION = 'app.wsgi.application'
 
 
