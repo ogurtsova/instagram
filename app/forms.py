@@ -64,8 +64,12 @@ class SignInForm(forms.Form):
 
 class SettingsForm(forms.Form):
     username = forms.CharField(max_length=128, required=False)
+    password = forms.CharField(widget=forms.PasswordInput, required=False)
+    new_password = forms.CharField(widget=forms.PasswordInput, required=False)
+    confirm_password = forms.CharField(widget=forms.PasswordInput, required=False)
     userpic = forms.FileField(required=False)
 
+    
 
 
 

@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 
 
 
@@ -116,6 +117,20 @@ def settings(request):
             if userpic is not None:
                 request.user.profile.userpic = userpic
                 request.user.profile.save()
+            password = form.cleaned_data.get('password')
+            if  password != '':
+                if request.user.check_password(password):
+                    new_password = form.cleaned_data.get('new_password')
+                    confirm_password = form.cleaned_data.get('confirm_password')
+                    if new_password != '':
+                        if new_password == confirm_password:
+                            request.user.set_password(new_password)
+                            update_session_auth_hash(request, request.user)
+                            messages.add_message(request, messages.SUCCESS, 'Password was updated')
+                        else:
+                            messages.add_message(request, messages.ERROR, 'Passwords do not match!')
+                else:
+                    messages.add_message(request, messages.ERROR, 'Wrong password!')
             request.user.save()
             return redirect(request.path)
 
